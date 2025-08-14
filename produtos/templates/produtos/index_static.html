@@ -14,12 +14,30 @@
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1 class="display-4">{{ titulo }}</h1>
-        <p class="lead">Esta é a sua primeira página HTML renderizada pelo Django!</p>
-        <p>Aprender Django é muito divertido. Continue praticando!</p>
-        <hr>
-        <p class="text-muted">Explore mais sobre seus produtos aqui.</p>
+    <div class="container mt-4">
+        <h1>Nossos Produtos</h1>
+        {% if produto %}
+            <div class="row">
+                {% for prod in produto %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            {% comment %} Supondo que seu modelo Produto tenha um campo 'imagem' {% endcomment %}
+                            {% if prod.imagem %}
+                                <img src="{{ prod.imagem.url }}" class="card-img-top" alt="{{ prod.nome }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ prod.nome }}</h5>
+                                <p class="card-text">{{ prod.descricao|truncatechars:100 }}</p>
+                                <p class="card-text"><strong>R$ {{ prod.preco|floatformat:2 }}</strong></p>
+                                <a href="#" class="btn btn-primary">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Nenhum produto cadastrado ainda.</p>
+        {% endif %}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
